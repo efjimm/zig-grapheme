@@ -5,6 +5,7 @@ Requires Zig master.
 Zig bindings for [libgrapheme](https://libs.suckless.org/libgrapheme/), packaged
 via the Zig package manager.
 Provides wrappers for all libgrapheme functions as well as iterator types.
+Does not require linking libc.
 
 This library is not tested. It should download and compile without error, however.
 
