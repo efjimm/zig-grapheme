@@ -6,7 +6,7 @@ pub fn build(b: *std.Build) void {
 
     const grapheme = b.dependency("libgrapheme", .{ .target = target, .optimize = optimize });
 
-    _ = b.addModule("libgrapheme-zig", .{
+    _ = b.addModule("grapheme", .{
         .source_file = .{ .path = "src/main.zig" },
     });
 
