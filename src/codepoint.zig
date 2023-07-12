@@ -6,6 +6,7 @@ const utf8 = @import("utf8.zig");
 
 comptime {
     std.debug.assert(@sizeOf(c.uint_least32_t) == @sizeOf(u21));
+    std.debug.assert(@sizeOf(c.uint_least16_t) == @sizeOf(u16));
 }
 
 pub const Iterator = @import("CodepointIterator.zig");
@@ -44,4 +45,8 @@ pub fn nextSentenceBreak(str: []const u21) usize {
 /// For UTF-8-encoded input data `utf8.nextWordBreak` can be used instead.
 pub fn nextWordBreak(str: []const u21) usize {
     return c.grapheme_next_word_break(@ptrCast(str.ptr), str.len);
+}
+
+pub fn isCharacterBreak(cp1: u21, cp2: u21, state: ?*u16) bool {
+    return c.grapheme_is_character_break(cp1, cp2, state);
 }
