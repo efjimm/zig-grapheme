@@ -47,6 +47,13 @@ pub fn nextWordBreak(str: []const u21) usize {
     return c.grapheme_next_word_break(@ptrCast(str.ptr), str.len);
 }
 
+/// Determines if there is a grapheme cluster break between the two codepoints
+/// `cp1` and `cp2`. By specificatino this decision depends on a `state` that
+/// can at most be completely reset after detecting a break and must be reset
+/// every time one deviates from sequential processing.
+///
+/// If `state` is null `isCharacterBreak` behaves as if it was called with a
+/// fully reset state.
 pub fn isCharacterBreak(cp1: u21, cp2: u21, state: ?*u16) bool {
     return c.grapheme_is_character_break(cp1, cp2, state);
 }
