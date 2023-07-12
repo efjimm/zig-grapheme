@@ -1,4 +1,4 @@
-# libgrapheme-zig
+# zig-grapheme
 
 Requires Zig master.
 
@@ -14,10 +14,9 @@ You can use this library via the Zig package manager. In your build.zig.zon:
 
 ```zig
 .{
-  // ...
   .dependencies = .{
-    .libgrapheme = .{
-      .url = "https://github.com/efjimm/libgrapheme-zig/archive/master.tar.gz",
+    .zig_grapheme = .{
+      .url = "https://github.com/efjimm/zig-grapheme/archive/master.tar.gz",
       // .hash = ...
     }
   },
@@ -34,20 +33,18 @@ with the full hash of a commit.
 In your build.zig, add:
 
 ```zig
-//...
-
-const g = b.dependency("libgrapheme_zig", .{
+const g = b.dependency("zig_grapheme", .{
   .target = target,
   .optimize = optimize,
-  .shared = false, // optional parameter, can be excluded
+
+  // Whether to build libgrapheme as a shared library (default: false, can be excluded)
+  .shared = false,
 });
 
-// Compiles and links the libgrapheme C library statically
+// Compiles and links the libgrapheme C library
 exe.linkLibrary(g.artifact("grapheme"));
 // Adds the "grapheme" module so you can @import("grapheme") in your code
 exe.addModule("grapheme", g.module("grapheme"));
-
-//...
 ```
 
 ## Usage
