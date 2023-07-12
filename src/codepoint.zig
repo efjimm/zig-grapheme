@@ -4,10 +4,8 @@ const c = @cImport({
 });
 const utf8 = @import("utf8.zig");
 
-comptime {
-    std.debug.assert(@sizeOf(c.uint_least32_t) == @sizeOf(u32));
-    std.debug.assert(@sizeOf(c.uint_least16_t) == @sizeOf(u16));
-}
+pub const Codepoint = c.uint_least32_t;
+pub const State = c.uint_least16_t;
 
 pub const Iterator = @import("CodepointIterator.zig");
 
@@ -17,7 +15,7 @@ pub const Iterator = @import("CodepointIterator.zig");
 ///
 /// For UTF-8-encoded input data `utf8.nextCharacterBreak` can be used
 /// instead.
-pub fn nextCharacterBreak(str: []const u32) usize {
+pub fn nextCharacterBreak(str: []const Codepoint) usize {
     return c.grapheme_next_character_break(str.ptr, str.len);
 }
 
@@ -25,7 +23,7 @@ pub fn nextCharacterBreak(str: []const u32) usize {
 /// codepoint slice `str`.
 ///
 /// For UTF-8-encoded input data `utf8.nextLineBreak` can be used instead.
-pub fn nextLineBreak(str: []const u32) usize {
+pub fn nextLineBreak(str: []const Codepoint) usize {
     return c.grapheme_next_line_break(str.ptr, str.len);
 }
 
@@ -34,7 +32,7 @@ pub fn nextLineBreak(str: []const u32) usize {
 /// to the length of said sentence.
 ///
 /// For UTF-8-encoded input data `utf8.nextSentenceBreak` can be used instead
-pub fn nextSentenceBreak(str: []const u32) usize {
+pub fn nextSentenceBreak(str: []const Codepoint) usize {
     return c.grapheme_next_sentence_break(str.ptr, str.len);
 }
 
@@ -43,7 +41,7 @@ pub fn nextSentenceBreak(str: []const u32) usize {
 /// of said word.
 ///
 /// For UTF-8-encoded input data `utf8.nextWordBreak` can be used instead.
-pub fn nextWordBreak(str: []const u32) usize {
+pub fn nextWordBreak(str: []const Codepoint) usize {
     return c.grapheme_next_word_break(str.ptr, str.len);
 }
 
@@ -53,7 +51,7 @@ pub fn nextWordBreak(str: []const u32) usize {
 ///
 /// For UTF-8-encoded input data `utf8.nextCharacterBreakZ` can be used
 /// instead.
-pub fn nextCharacterBreakZ(str: [*:0]const u32) usize {
+pub fn nextCharacterBreakZ(str: [*:0]const Codepoint) usize {
     return c.grapheme_next_character_break(str, c.SIZE_MAX);
 }
 
@@ -61,7 +59,7 @@ pub fn nextCharacterBreakZ(str: [*:0]const u32) usize {
 /// null-terminated codepoint pointer `str`.
 ///
 /// For UTF-8-encoded input data `utf8.nextLineBreakZ` can be used instead.
-pub fn nextLineBreakZ(str: [*:0]const u32) usize {
+pub fn nextLineBreakZ(str: [*:0]const Codepoint) usize {
     return c.grapheme_next_line_break(str, c.SIZE_MAX);
 }
 
@@ -70,7 +68,7 @@ pub fn nextLineBreakZ(str: [*:0]const u32) usize {
 /// offset is equal to the length of said sentence.
 ///
 /// For UTF-8-encoded input data `utf8.nextSentenceBreakZ` can be used instead
-pub fn nextSentenceBreakZ(str: [*:0]const u32) usize {
+pub fn nextSentenceBreakZ(str: [*:0]const Codepoint) usize {
     return c.grapheme_next_sentence_break(str, c.SIZE_MAX);
 }
 
@@ -79,7 +77,7 @@ pub fn nextSentenceBreakZ(str: [*:0]const u32) usize {
 /// offset is equal to the length of said word.
 ///
 /// For UTF-8-encoded input data `utf8.nextWordBreakZ` can be used instead.
-pub fn nextWordBreakZ(str: [*:0]const u32) usize {
+pub fn nextWordBreakZ(str: [*:0]const Codepoint) usize {
     return c.grapheme_next_word_break(str, c.SIZE_MAX);
 }
 
@@ -90,7 +88,7 @@ pub fn nextWordBreakZ(str: [*:0]const u32) usize {
 ///
 /// If `state` is null `isCharacterBreak` behaves as if it was called with a
 /// fully reset state.
-pub fn isCharacterBreak(cp1: u32, cp2: u32, state: ?*u16) bool {
+pub fn isCharacterBreak(cp1: Codepoint, cp2: Codepoint, state: ?*State) bool {
     return c.grapheme_is_character_break(cp1, cp2, state);
 }
 
@@ -98,14 +96,14 @@ pub fn isCharacterBreak(cp1: u32, cp2: u32, state: ?*u16) bool {
 ///
 /// For UTF-8-encoded input data `utf8.isLowercase` can be used instead.
 /// For null-terminated codepoint pointers `isLowercaseZ` can be used instead.
-pub fn isLowercase(str: []const u32) bool {
+pub fn isLowercase(str: []const Codepoint) bool {
     return c.grapheme_is_lowercase(str.ptr, str.len, null);
 }
 
 /// Checks if the null-terminated codepoint pointer `str` is lowercase.
 ///
 /// For UTF-8-encoded input data `utf8.isLowercaseZ` can be used instead.
-pub fn isLowercaseZ(str: [*:0]const u32) bool {
+pub fn isLowercaseZ(str: [*:0]const Codepoint) bool {
     return c.grapheme_is_lowercase(str, c.SIZE_MAX, null);
 }
 
@@ -114,7 +112,7 @@ pub fn isLowercaseZ(str: [*:0]const u32) bool {
 ///
 /// For UTF-8-encoded input data `utf8.isLowercaseLen` can be used instead.
 /// For null-terminated codepoint pointers see `isLowercaseLenZ`.
-pub fn isLowercaseLen(str: []const u32) struct {
+pub fn isLowercaseLen(str: []const Codepoint) struct {
     is_lowercase: bool,
     case_len: usize,
 } {
@@ -130,7 +128,7 @@ pub fn isLowercaseLen(str: []const u32) struct {
 /// also returns the length of the matching lowercase sequence.
 ///
 /// For UTF-8-encoded input data `utf8.isLowercaseLen` can be used instead.
-pub fn isLowercaseLenZ(str: [*:0]const u32) struct {
+pub fn isLowercaseLenZ(str: [*:0]const Codepoint) struct {
     is_lowercase: bool,
     case_len: usize,
 } {
@@ -149,7 +147,7 @@ pub fn isLowercaseLenZ(str: [*:0]const u32) struct {
 ///
 /// For UTF-8-encoded data `utf8.toLowercase` can be used instead.
 /// For null-terminated codepoint pointers see `toLowercaseZ`.
-pub fn toLowercase(str: []const u32, dest: []u32) usize {
+pub fn toLowercase(str: []const Codepoint, dest: []Codepoint) usize {
     return c.grapheme_to_lowercase(str.ptr, str.len, dest.ptr, dest.len);
 }
 
@@ -157,7 +155,7 @@ pub fn toLowercase(str: []const u32, dest: []u32) usize {
 /// `dest`. `dest.len` need not be greater than `str.len`.
 ///
 /// For UTF-8-encoded data `utf8.toLowercase` can be used instead.
-pub fn toLowercaseZ(str: [*:0]const u32, dest: []u32) usize {
+pub fn toLowercaseZ(str: [*:0]const Codepoint, dest: []Codepoint) usize {
     return c.grapheme_to_lowercase(str, c.SIZE_MAX, dest.ptr, dest.len);
 }
 
@@ -166,14 +164,14 @@ pub fn toLowercaseZ(str: [*:0]const u32, dest: []u32) usize {
 /// For UTF-8-encoded input data `utf8.isUppercase` can be used instead.
 /// For null-terminated codepoint pointers whose length is not known, use
 /// `isUppercaseZ`.
-pub fn isUppercase(str: []const u32) bool {
+pub fn isUppercase(str: []const Codepoint) bool {
     return c.grapheme_is_uppercase(str.ptr, str.len, null);
 }
 
 /// Check if the null-terminated codepoint pointer `str` is uppercase.
 ///
 /// For UTF-8-encoded input data `utf8.isUppercaseZ` can be used instead.
-pub fn isUppercaseZ(str: [*:0]const u32) bool {
+pub fn isUppercaseZ(str: [*:0]const Codepoint) bool {
     return c.grapheme_is_uppercase(str, c.SIZE_MAX, null);
 }
 
@@ -183,7 +181,7 @@ pub fn isUppercaseZ(str: [*:0]const u32) bool {
 /// For UTF-8-encoded data `utf8.isUppercase` can be used instead.
 /// For null-terminated codepoint pointers whose length is not known, use
 /// `isUppercaseLenZ`.
-pub fn isUppercaseLen(str: []const u32) struct {
+pub fn isUppercaseLen(str: []const Codepoint) struct {
     is_uppercase: bool,
     case_len: usize,
 } {
@@ -199,7 +197,7 @@ pub fn isUppercaseLen(str: []const u32) struct {
 /// returns the length of the matching uppercase sequence.
 ///
 /// For UTF-8-encoded data `utf8.isUppercaseZ` can be used instead.
-pub fn isUppercaseLenZ(str: [*:0]const u32) struct {
+pub fn isUppercaseLenZ(str: [*:0]const Codepoint) struct {
     is_uppercase: bool,
     case_len: usize,
 } {
@@ -217,7 +215,7 @@ pub fn isUppercaseLenZ(str: [*:0]const u32) struct {
 /// For UTF-8-encoded input data `utf8.toUppercase` can be used instead.
 /// For null-terminated codepoint pointers whose length is not known, use
 /// `toUppercaseZ`.
-pub fn toUppercase(src: []const u32, dest: []u32) usize {
+pub fn toUppercase(src: []const Codepoint, dest: []Codepoint) usize {
     return c.grapheme_to_uppercase(src.ptr, src.len, dest.ptr, dest.len);
 }
 
@@ -225,7 +223,7 @@ pub fn toUppercase(src: []const u32, dest: []u32) usize {
 /// writes the result to `dest`. `dest.len` need not be greater than `src.len`.
 ///
 /// For UTF-8-encoded input data `utf8.toUppercase` can be used instead.
-pub fn toUppercaseZ(src: [*:0]const u32, dest: []u32) usize {
+pub fn toUppercaseZ(src: [*:0]const Codepoint, dest: []Codepoint) usize {
     return c.grapheme_to_uppercase(src, c.SIZE_MAX, dest.ptr, dest.len);
 }
 
@@ -234,14 +232,14 @@ pub fn toUppercaseZ(src: [*:0]const u32, dest: []u32) usize {
 // For UTF-8-encoded input data use `utf8.isTitlecase` instead.
 /// For null-terminated codepoint pointers whose length is not known, use
 /// `isTitlecaseZ`.
-pub fn isTitlecase(str: []const u32) bool {
+pub fn isTitlecase(str: []const Codepoint) bool {
     return c.grapheme_is_titlecase(str.ptr, str.len, null);
 }
 
 /// Checks if the null-terminated codepoint pointer `str` is titlecase.
 ///
 // For UTF-8-encoded input data use `utf8.isTitlecase` instead.
-pub fn isTitleCaseZ(str: [*:0]const u32) bool {
+pub fn isTitleCaseZ(str: [*:0]const Codepoint) bool {
     return c.grapheme_is_titlecase(str, c.SIZE_MAX, null);
 }
 
@@ -251,7 +249,7 @@ pub fn isTitleCaseZ(str: [*:0]const u32) bool {
 /// For UTF-8-encoded data `utf8.isTitlecase` can be used instead.
 /// For null-terminated codepoint pointers whose length is not known, use
 /// `isTitlecaseLenZ`.
-pub fn isTitlecaseLen(str: []const u32) struct {
+pub fn isTitlecaseLen(str: []const Codepoint) struct {
     is_titlecase: bool,
     case_len: usize,
 } {
@@ -267,7 +265,7 @@ pub fn isTitlecaseLen(str: []const u32) struct {
 /// the matching titlecase sequence.
 ///
 /// For UTF-8-encoded data `utf8.isTitlecase` can be used instead.
-pub fn isTitlecaseLenZ(str: [*:0]const u32) struct {
+pub fn isTitlecaseLenZ(str: [*:0]const Codepoint) struct {
     is_titlecase: bool,
     case_len: usize,
 } {
@@ -285,7 +283,7 @@ pub fn isTitlecaseLenZ(str: [*:0]const u32) struct {
 /// For UTF-8-encoded input data `utf8.toTitlecase` can be used instead.
 /// For null-terminated codepoint pointers whose length is not known, use
 /// `toTitlecaseZ`.
-pub fn toTitlecase(str: []const u32, dest: []u32) usize {
+pub fn toTitlecase(str: []const Codepoint, dest: []Codepoint) usize {
     return c.grapheme_to_titlecase(str.ptr, str.len, dest.ptr, dest.len);
 }
 
@@ -293,6 +291,6 @@ pub fn toTitlecase(str: []const u32, dest: []u32) usize {
 /// writes the result to `dest`. `dest.len` need not be greater than `src.len`.
 ///
 /// For UTF-8-encoded input data `utf8.toTitlecase` can be used instead.
-pub fn toTitlecaseZ(str: [*:0]const u32, dest: []u32) usize {
+pub fn toTitlecaseZ(str: [*:0]const Codepoint, dest: []Codepoint) usize {
     return c.grapheme_to_titlecase(str, c.SIZE_MAX, dest.ptr, dest.len);
 }
