@@ -19,4 +19,14 @@ pub fn build(b: *std.Build) void {
     });
     lib.linkLibrary(grapheme.artifact("grapheme"));
     b.installArtifact(lib);
+
+    const tests = b.addTest(.{
+        .root_source_file = .{ .path = "src/main.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
+    tests.linkLibrary(grapheme.artifact("grapheme"));
+    const run_tests = b.addRunArtifact(tests);
+    const test_step = b.step("test", "Run all unit tests");
+    test_step.dependOn(&run_tests.step);
 }
