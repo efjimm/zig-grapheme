@@ -3,8 +3,13 @@ const std = @import("std");
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
+    const shared = b.option(bool, "shared", "Builds libgrapheme as a shared library") orelse false;
 
-    const grapheme = b.dependency("libgrapheme", .{ .target = target, .optimize = optimize });
+    const grapheme = b.dependency("libgrapheme", .{
+        .target = target,
+        .optimize = optimize,
+        .shared = shared,
+    });
 
     _ = b.addModule("grapheme", .{
         .source_file = .{ .path = "src/main.zig" },
