@@ -8,7 +8,7 @@ index: usize = 0,
 fn next(self: *Self, comptime func: fn ([]const u8) usize) ?[]const u8 {
     if (self.index >= self.bytes.len) return null;
     const start = self.index;
-    self.index += func(self.bytes[self.index]);
+    self.index += func(self.bytes[self.index..]);
     return self.bytes[start..self.index];
 }
 
