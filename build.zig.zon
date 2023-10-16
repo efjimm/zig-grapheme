@@ -4,7 +4,13 @@
 	.dependencies = .{
 		.libgrapheme = .{
 			.url = "https://github.com/efjimm/libgrapheme/archive/master.tar.gz",
-			.hash = "12209591c4c82743a72b580c252e126990df304b807b990df6a9dad554582a115061",
+			.hash = "1220d920a8cd9e1a97f1f1e04510c2a43fbb6b7820a534da74eda939affc99ff2f4b",
 		}
-	}
+	},
+	.paths = .{
+		"README.md",
+		"build.zig",
+		"build.zig.zon",
+		"src",
+	},
 }
