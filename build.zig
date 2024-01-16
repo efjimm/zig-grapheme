@@ -11,9 +11,7 @@ pub fn build(b: *std.Build) void {
         .shared = shared,
     });
 
-    _ = b.addModule("grapheme", .{
-        .source_file = .{ .path = "src/main.zig" },
-    });
+    _ = b.addModule("grapheme", .{ .root_source_file = .{ .path = "src/main.zig" } });
     b.installArtifact(grapheme.artifact("grapheme"));
 
     const tests = b.addTest(.{
