@@ -11,11 +11,11 @@ pub fn build(b: *std.Build) void {
         .shared = shared,
     });
 
-    const mod = b.addModule("grapheme", .{ .root_source_file = .{ .path = "src/main.zig" } });
+    const mod = b.addModule("grapheme", .{ .root_source_file = b.path("src/main.zig") });
     mod.linkLibrary(grapheme.artifact("grapheme"));
 
     const tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });

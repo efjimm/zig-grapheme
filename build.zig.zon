@@ -2,7 +2,10 @@
     .name = "libgrapheme-zig",
     .version = "0.0.1",
     .dependencies = .{
-        .libgrapheme = .{ .url = "https://github.com/efjimm/libgrapheme/archive/0a6ad3b010a0f3396a849fa9ddea43ab3eb5c300.tar.gz", .hash = "1220b16c3947b4636e57f3e71e75af6e56cb79f55993c15418779c369da241dc49bb" },
+        .libgrapheme = .{
+            .url = "git+https://github.com/efjimm/libgrapheme#c9ea61c497045d8c2239b89ffa96512762a44dbf",
+            .hash = "1220933e4b148f43fd65966fc66aefb4de43c9e89a9f60989ca2a1a5aa6d29e650a1",
+        },
     },
     .paths = .{
         "README.md",
