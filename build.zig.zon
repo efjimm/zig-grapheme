@@ -3,8 +3,8 @@
     .version = "0.0.1",
     .dependencies = .{
         .libgrapheme = .{
-            .url = "git+https://github.com/efjimm/libgrapheme?ref=master#563c17da496eb303f5aa9bf1c4d0d30f954dcd4f",
-            .hash = "12202fe1ad554ae5a301b9f6d06225bc25f4a4da864f5165599c8ad1cb8d01b194f1",
+            .url = "git+https://github.com/efjimm/libgrapheme?ref=master#79f8b5b2f00004ad5a30678a34eee8e0111b3964",
+            .hash = "1220bc53bcbb623e5c7655111994d68dfa25c58310c0fa269f094a38f3332fcc25b3",
         },
     },
     .paths = .{
