@@ -1,6 +1,7 @@
 .{
-    .name = "libgrapheme-zig",
+    .name = .libgrapheme_zig,
     .version = "0.0.1",
+    .fingerprint = 0x3ae7d820015e8ebe,
     .dependencies = .{
         .libgrapheme = .{
             .url = "git+https://github.com/efjimm/libgrapheme?ref=master#f392977fee11585da52432c0ee4c4e0f98c3c81d",
