@@ -4,8 +4,8 @@
     .fingerprint = 0x3ae7d820015e8ebe,
     .dependencies = .{
         .libgrapheme = .{
-            .url = "git+https://github.com/efjimm/libgrapheme?ref=master#f392977fee11585da52432c0ee4c4e0f98c3c81d",
-            .hash = "1220a136e15762d1f72a27b8b17cce5b38cc2af8d2e9d5fc45a2f76cf71b76047494",
+            .url = "git+https://github.com/efjimm/libgrapheme?ref=master#2554e0a76c7e063f4ef75c14d09961fbb73069bb",
+            .hash = "libgrapheme-2.0.2-drHWBuCpPQFw-mMQzfJuqdAy9FHeWTj8zEbXCSyPWjpF",
         },
     },
     .paths = .{
